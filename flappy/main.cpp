@@ -1,15 +1,32 @@
 #include "header.h"
 void afisareMeniu()
 {
-    outtextxy(midx,midy,"FLAPPY BIRDS");
+
 }
 void updatePasare(int &y,float &velocity)
 {
     if(GetAsyncKeyState( VK_UP ) & 0x8000 )velocity+=lift;
     velocity+=gravity;
-    velocity*=0.8;
+    velocity*=0.6;
     y+=int(velocity);
     afisarePasare(y);
+    if(height-y<=0)velocity=0;
+    if(y>height)velocity=height;
+}
+void updateTeava(int pozX)
+{
+    pozX-=vitezaTevi;
+    afisareTeava(pozX,)
+    //http://stackoverflow.com/questions/7560114/random-number-c-in-some-range
+    std::random_device rd; // obtain a random number from hardware
+    std::mt19937 eng(rd()); // seed the generator
+    std::uniform_int_distribution<> distr(20, 380); // define the range
+    int rando=distr(eng);
+}
+void afisareTeava(int pozX, int pozY)
+{
+    bar(pozX,0,pozX+grosimeTevi,pozY);
+    bar(pozX,pozY+distantaIntreTevi,pozX,height);
 }
 void afisarePasare(int y)
 {
@@ -24,5 +41,13 @@ void afisarePasare(int y)
   int main()
   {
       initwindow(lenght,height);
-      afisareMeniu();
+      int pozY=height/2;
+      bool ok=1;
+      while(ok)
+      {
+          updatePasare(pozY,velocity);
+          framecount++;
+          delay(35);
+      }
+      return 0;
   }
