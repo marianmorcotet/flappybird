@@ -7,20 +7,19 @@ void ecranSfarsitJoc()
     outtextxy(36,160,"Apasa orice tasta");
     outtextxy(52,180,"pentru a reveni.");
 }
-void navigareMeniu(int &selectie)
+void navigareMeniu(int &selectie,int &pozitieSelector)
 {
-    int pozitieSelector=95;
     afisareMeniu();
-    afisarePasareMaiMica(pozitieSelector);
-    if((GetAsyncKeyState( VK_UP ) & 0x8000 ) && pozitieSelector>95)
+    afisarePasareMaiMica(pozitieSelect);
+    if(GetAsyncKeyState( VK_UP ) & 0x8000)
     {
-        pozitieSelector-=20;
-        //afisarePasareMaiMica(pozitieSelector);
+        if(pozitieSelector==95)pozitieSelector=115;
+          else pozitieSelector=135;
     }
-    if((GetAsyncKeyState( VK_DOWN ) & 0x8000 ) && pozitieSelector<135)
+    if(GetAsyncKeyState(VK_DOWN) & 0x8000)
     {
-        pozitieSelector+=20;
-        //afisarePasareMaiMica(pozitieSelector);
+        if(pozitieSelector==135)pozitieSelector=115;
+          else pozitieSelector=95;
     }
     delay(40);
     cleardevice();
@@ -37,7 +36,7 @@ void afisareMeniu()
 }
 void updatePasare(int &y,float &velocity,bool &caca)
 {
-    if(GetAsyncKeyState( VK_UP ) & 0x8000 )velocity+=lift;
+    if(GetAsyncKeyState( VK_UP ) & 0x8000)velocity+=lift;
     velocity+=gravity;
     velocity*=0.6;
     y+=int(velocity);
@@ -90,9 +89,10 @@ void afisarePasare(int y)
       tevi[2].pozitieX=700;
       tevi[2].yDeSus=rand()%201+100;
       std::cout<<tevi[0].yDeSus<<" "<<tevi[1].yDeSus<<" "<<tevi[2].yDeSus<<" ";
+      int pozitieSelect=95;
       while(selectie==0)
       {
-          navigareMeniu(selectie);
+          navigareMeniu(selectie,pozitieSelect);
       }
       if(selectie==1){
       while(pasareaEsteInViata)
