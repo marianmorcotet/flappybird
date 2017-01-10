@@ -13,20 +13,11 @@ void updatePasare(int &y,float &velocity)
     if(height-y<=0)velocity=0;
     if(y>height)velocity=height;
 }
-void updateTeava(int pozX)
-{
-    pozX-=vitezaTevi;
-    afisareTeava(pozX,)
-    //http://stackoverflow.com/questions/7560114/random-number-c-in-some-range
-    std::random_device rd; // obtain a random number from hardware
-    std::mt19937 eng(rd()); // seed the generator
-    std::uniform_int_distribution<> distr(20, 380); // define the range
-    int rando=distr(eng);
-}
+
 void afisareTeava(int pozX, int pozY)
 {
-    bar(pozX,0,pozX+grosimeTevi,pozY);
-    bar(pozX,pozY+distantaIntreTevi,pozX,height);
+    bar(pozX,0,pozX+25,pozY);//25 grosimea tevii
+    bar(pozX,pozY+60,pozX+25,height);//60 distanta intre tevi
 }
 void afisarePasare(int y)
 {
@@ -41,10 +32,25 @@ void afisarePasare(int y)
   int main()
   {
       initwindow(lenght,height);
+      int nrtevi=0;
       int pozY=height/2;
       bool ok=1;
       while(ok)
       {
+          if(nrtevi<3&&framecount==100)
+          {
+              tevi[nrtevi].pozitieX=300;
+              tevi[nrtevi].yDeSus=rand()%381+20;
+              nrtevi++;
+              framecount-=100;
+          }
+          if(tevi[0].pozitieX<=-24)
+          {
+              for(int i=0;i<2;i++)
+              {
+                  tevi[i]=tevi[i+1];
+              }
+          }
           updatePasare(pozY,velocity);
           framecount++;
           delay(35);
