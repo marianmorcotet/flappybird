@@ -1,8 +1,8 @@
 # depslib dependency file v1.0
-1484077002 source:c:\users\marian\desktop\flappy\main.cpp
+1484080498 source:c:\users\marian\desktop\flappy\main.cpp
 	"header.h"
 
-1484076211 c:\users\marian\desktop\flappy\header.h
+1484080375 c:\users\marian\desktop\flappy\header.h
 	<ctime>
 	<graphics.h>
 	<iostream>

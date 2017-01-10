@@ -7,13 +7,33 @@ void ecranSfarsitJoc()
     outtextxy(36,160,"Apasa orice tasta");
     outtextxy(52,180,"pentru a reveni.");
 }
+void navigareMeniu(int &selectie)
+{
+    int pozitieSelector=95;
+    afisareMeniu();
+    afisarePasareMaiMica(pozitieSelector);
+    if((GetAsyncKeyState( VK_UP ) & 0x8000 ) && pozitieSelector>95)
+    {
+        pozitieSelector-=20;
+        //afisarePasareMaiMica(pozitieSelector);
+    }
+    if((GetAsyncKeyState( VK_DOWN ) & 0x8000 ) && pozitieSelector<135)
+    {
+        pozitieSelector+=20;
+        //afisarePasareMaiMica(pozitieSelector);
+    }
+    delay(40);
+    cleardevice();
+
+}
 void afisareMeniu()
 {
-    settextstyle(COMPLEX_FONT,0,2);
-    outtextxy(46,60,1"Flappy pasari")
-    settextstyle(DEFAULT_FONT,0,1);
-    outtextxy(20,90,"1.Start joc");
-    outtextxy(20,100,"2.Instructiuni");
+    settextstyle(GOTHIC_FONT,0,2);
+    outtextxy(46,60,"Flappy pasari");
+    settextstyle(DEFAULT_FONT,0,2);
+    outtextxy(24,90,"1.Start joc");
+    outtextxy(24,110,"2.Instructiuni");
+    outtextxy(24,130,"3.Iesi");
 }
 void updatePasare(int &y,float &velocity,bool &caca)
 {
@@ -36,6 +56,15 @@ void afisareTeava(int pozX, int pozY)
     bar(pozX-5,pozY+70,pozX+30,pozY+80);
     bar(pozX,pozY+80,pozX+25,height);//70 distanta intre tevi
 }
+void afisarePasareMaiMica(int y)
+{
+    setfillstyle(SOLID_FILL,YELLOW);
+    bar(5,y-1,17,y+8);
+    setfillstyle(SOLID_FILL,LIGHTRED);
+    bar(17,y+2,20,y+4);
+    setfillstyle(SOLID_FILL,BLUE);
+    bar(12,y+2,14,y+4);
+}
 void afisarePasare(int y)
 {
      setfillstyle(SOLID_FILL,YELLOW);
@@ -50,6 +79,7 @@ void afisarePasare(int y)
   {
       initwindow(lenght,height);
       start:
+      int selectie=0;
       int pozY=height/2;
       bool pasareaEsteInViata=1;
       srand(time(0));
@@ -60,6 +90,11 @@ void afisarePasare(int y)
       tevi[2].pozitieX=700;
       tevi[2].yDeSus=rand()%201+100;
       std::cout<<tevi[0].yDeSus<<" "<<tevi[1].yDeSus<<" "<<tevi[2].yDeSus<<" ";
+      while(selectie==0)
+      {
+          navigareMeniu(selectie);
+      }
+      if(selectie==1){
       while(pasareaEsteInViata)
       {
           //verificareDacaPrimaTeavaAIesitDePeEcran(nrtevi,tevi[]);
@@ -82,6 +117,7 @@ void afisarePasare(int y)
           framecount++;
           delay(intarziere);
           cleardevice();
+        }
         }
 
       return 0;
