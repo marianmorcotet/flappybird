@@ -1,4 +1,5 @@
 
+#include <ctime>
 #include <graphics.h>
 #include <iostream>
 struct teava
@@ -22,3 +23,4 @@ float velocity=0;
 unsigned int framecount=0;
 int vitezaTevi=4;
 teava tevi[2];
+int intarziere=45;
