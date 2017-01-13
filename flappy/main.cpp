@@ -167,20 +167,16 @@ void afisarePasare(int y)
      setfillstyle(SOLID_FILL,BLUE);
      bar(pasareAxaX+15,y-5,pasareAxaX+18,y-8);
 }
-void afisarePowerUp(powerup as)
+void afisarePowerUp(int x, int y,int tip)
 {
-    if(as.tip==0)godMode(as.x,as.y);
-       else if(as.tip==1)slowTime(as.x,as.y);
-               else if(as.tip==2)speedTime(as.x,as.y);
+    if(tip==0)godMode(x,y);
+       else if(tip==1)slowTime(x,y);
+               else if(tip==2)speedTime(x,y);
 }
 
   int main()
   {
-      initwindow(lenght,height);
-      std::ofstream f("highscore.txt");
-      std::ifstream g("highscore.txt");
-
-
+      initwindow(lenght,height,"Flappy Pasari");
       meniu:
       srand(time(0));//seed random pt ca obstacolele sa fie cu adevarat random
       //calculeaza pozitia primelor 3 obstacole
@@ -190,13 +186,6 @@ void afisarePowerUp(powerup as)
       tevi[1].yDeSus=rand()%201+100;
       tevi[2].pozitieX=700;
       tevi[2].yDeSus=rand()%201+100;
-      sansapowerup=0;
-      if(sansapowerup==0)
-      {
-          jmeker.x=707;
-          jmeker.tip=1;
-          jmeker.y=tevi[2].yDeSus+35;
-      }
       nori[0].pozitieX=80;
       nori[0].pozitieY=rand()%161;
       nori[0].viteza=rand()%5+1;
@@ -235,18 +224,11 @@ void afisarePowerUp(powerup as)
 
 
       highscore:
-          g>>max1;
-          while(g>>max2)
-          {
-              if(max2>max1)max1=max2;
-          }
-          f<<max1;
-          max3[0]=max1+'0';
           settextstyle(DEFAULT_FONT,0,2);
           while(afisareHighScore)
           {
           outtextxy(1,100,"Cel mai Jmeker:");
-          outtextxy(1,120,max3);
+          outtextxy(1,120,"99");
           if(GetKeyState(VK_ESCAPE) & 0x8000)afisareHighScore=0;
           }
           goto meniu;
@@ -267,7 +249,6 @@ void afisarePowerUp(powerup as)
       while(pasareaEsteInViata)
       {
           afisareBackground();
-          framecount++;
           //nori
           for(int j=0;j<6;j++)
           {
@@ -286,25 +267,12 @@ void afisarePowerUp(powerup as)
                  else if(nori[j].tip==1)tipNor1(nori[j].pozitieX,nori[j].pozitieY);
                          else if(nori[j].tip==2)tipNor2(nori[j].pozitieX,nori[j].pozitieY);
                                  else tipNor3(nori[j].pozitieX,nori[j].pozitieY);
+              if(nori[j].viteza>5)
+                while(nori[j].viteza>5)nori[j].viteza-=5;
               nori[j].pozitieX-=nori[j].viteza;
+              std::cout<<nori[j].viteza<<" ";
           }
 
-
-          //power up
-          if(framecount==140 || jmeker.x<0)
-          {
-              framecount=0;
-              sansapowerup=rand()%6;
-              if(sansapowerup==0)
-              {
-                jmeker.x=707;
-                jmeker.y=tevi[2].yDeSus+35;
-              }
-
-          }
-          jmeker.x-=jmeker.viteza;
-          afisarePowerUp(jmeker);
-          std::cout<<jmeker.x<<" "<<jmeker.y<<std::endl;
 
 
           //verificareDacaPrimaTeavaAIesitDePeEcran(nrtevi,tevi[]);
@@ -331,7 +299,7 @@ void afisarePowerUp(powerup as)
                   delay(80);
                   afisarePauza();
                   delay(100);
-                  if((GetAsyncKeyState(VK_ESCAPE) & 0x8000))pauza=0;
+                  if((GetAsyncKeyState(VK_ESCAPE) & 0x8000)){pauza=0;cleardevice();}
               }
           }
           updatePasare(pozY,velocity,pasareaEsteInViata);
@@ -356,7 +324,6 @@ void afisarePowerUp(powerup as)
           delay(intarziere);
           cleardevice();
         }
-        f<<score<<" ";
           revenireLaMeniu=0;
       while(revenireLaMeniu==0)
       {
@@ -379,5 +346,6 @@ void afisarePowerUp(powerup as)
       }
       goto meniu;
       iesire:
+
       return 0;
   }

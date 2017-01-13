@@ -1,6 +1,5 @@
 #include <string>
 #include <fstream>
-#include <stdio.h>
 #include <ctime>
 #include <graphics.h>
 #include <iostream>
@@ -13,17 +12,10 @@ struct nor
 {
     int pozitieX;
     int pozitieY;
-    int viteza=5;
+    int viteza;
     int tip;
 };
-struct powerup
-{
-    int x=707;
-    int y;
-    int tip=1;
-    int viteza=5;
-};
-void afisarePowerUp(powerup asd);
+void afisarePowerUp(int x, int y, int tip);
 void afisareInstructiuni(bool &afisare);
 void afisarePasare(int yy);
 void updatePasare(int &yy, float &velocityy);
@@ -52,16 +44,17 @@ float velocity=0;
 unsigned int framecount=0;
 int vitezaTevi=5;
 teava tevi[2];
-int intarziere=40;
+int intarziere=50;
 bool oSinguraSaritura=0;
 nor nori[5];
 bool afisareinstructiuni=1;
 bool pauza;
 int sansapowerup;
-powerup jmeker;
 char scorul[10];
 char scoorul[10];
 int max1;
 int max2;
 char max3[1];
 bool afisareHighScore=1;
+int xPowerUp;
+int yPowerUp;
