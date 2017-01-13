@@ -18,10 +18,10 @@ struct nor
 };
 struct powerup
 {
-    int x;
+    int x=707;
     int y;
-    int tip;
-    int viteza;
+    int tip=1;
+    int viteza=5;
 };
 void afisarePowerUp(powerup asd);
 void afisareInstructiuni(bool &afisare);

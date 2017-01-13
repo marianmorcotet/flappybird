@@ -2,20 +2,19 @@
 
 void godMode(int x, int y)
 {
-    setfillstyle(XHATCH_FILL,YELLOW);
+    setfillstyle(SOLID_FILL,YELLOW);
     bar(x,y,x+10,y+10);
 }
 void speedTime(int x, int y)
 {
-    setfillstyle(XHATCH_FILL,RED);
+    setfillstyle(SOLID_FILL,RED);
     bar(x,y,x+10,y+10);
 }
 void slowTime(int x, int y)
 {
-    setfillstyle(XHATCH_FILL,LIGHTGRAY);
+    setfillstyle(SOLID_FILL,LIGHTGRAY);
     bar(x,y,x+10,y+10);
 }
-
 void afisarePauza()
 {
     settextstyle(GOTHIC_FONT,0,2);
@@ -139,7 +138,7 @@ void updatePasare(int &y,float &velocity,bool &caca)
     if(y-10<=0){caca=0;Beep(777,500);}
     if(y+5>height){caca=0;Beep(777,500);}
     //check coliziune
-    if((pasareAxaX>tevi[0].pozitieX-5 || pasareAxaX+20>tevi[0].pozitieX)&&(pasareAxaX<tevi[0].pozitieX+30 || pasareAxaX+20<tevi[0].pozitieX+30))
+    if((pasareAxaX>tevi[0].pozitieX-9 || pasareAxaX+20>tevi[0].pozitieX)&&(pasareAxaX<tevi[0].pozitieX+30 || pasareAxaX+20<tevi[0].pozitieX+30))
         if(y-10<tevi[0].yDeSus || y+5>tevi[0].yDeSus+70){caca=0;Beep(777,500);delay(300);}
 }
 void afisareTeava(int pozX, int pozY)
@@ -181,6 +180,7 @@ void afisarePowerUp(powerup as)
       std::ofstream f("highscore.txt");
       std::ifstream g("highscore.txt");
 
+
       meniu:
       srand(time(0));//seed random pt ca obstacolele sa fie cu adevarat random
       //calculeaza pozitia primelor 3 obstacole
@@ -193,8 +193,8 @@ void afisarePowerUp(powerup as)
       sansapowerup=0;
       if(sansapowerup==0)
       {
-          jmeker.tip=rand()%3;
           jmeker.x=707;
+          jmeker.tip=1;
           jmeker.y=tevi[2].yDeSus+35;
       }
       nori[0].pozitieX=80;
@@ -231,6 +231,9 @@ void afisarePowerUp(powerup as)
          else if(selectie==2)goto instructiuni;
                  else if(selectie==3) goto highscore;
                          else goto iesire;
+
+
+
       highscore:
           g>>max1;
           while(g>>max2)
@@ -246,12 +249,19 @@ void afisarePowerUp(powerup as)
           outtextxy(1,120,max3);
           if(GetKeyState(VK_ESCAPE) & 0x8000)afisareHighScore=0;
           }
+          goto meniu;
+
+
+
       instructiuni:
           while(afisareinstructiuni)
           {
               afisareInstructiuni(afisareinstructiuni);
           }
           goto meniu;
+
+
+
       startjoc:
           score=0;
       while(pasareaEsteInViata)
@@ -278,21 +288,25 @@ void afisarePowerUp(powerup as)
                                  else tipNor3(nori[j].pozitieX,nori[j].pozitieY);
               nori[j].pozitieX-=nori[j].viteza;
           }
+
+
           //power up
-          if(framecount==140)
+          if(framecount==140 || jmeker.x<0)
           {
               framecount=0;
               sansapowerup=rand()%6;
-             if(sansapowerup==0)
-             {
-               jmeker.tip=rand()%3;
-               jmeker.x=707;
-               jmeker.y=tevi[2].yDeSus+rand()%31+20;
-             }
+              if(sansapowerup==0)
+              {
+                jmeker.x=707;
+                jmeker.y=tevi[2].yDeSus+35;
+              }
+
           }
           jmeker.x-=jmeker.viteza;
           afisarePowerUp(jmeker);
-          //gata power up
+          std::cout<<jmeker.x<<" "<<jmeker.y<<std::endl;
+
+
           //verificareDacaPrimaTeavaAIesitDePeEcran(nrtevi,tevi[]);
           if(tevi[0].pozitieX<=-30)
           {
@@ -321,6 +335,8 @@ void afisarePowerUp(powerup as)
               }
           }
           updatePasare(pozY,velocity,pasareaEsteInViata);
+
+
           //score
           if(tevi[0].pozitieX==90)score++;
           int i=0;
@@ -335,6 +351,8 @@ void afisarePowerUp(powerup as)
            outtextxy(270,30,scorul);
 
            // gata score
+
+
           delay(intarziere);
           cleardevice();
         }
